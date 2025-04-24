@@ -1,0 +1,5 @@
+package com.projetoplaylist.entities.dto.musicdto;
+
+public class MusicPostDTO {
+
+}

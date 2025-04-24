@@ -1,0 +1,105 @@
+package com.projetoplaylist.controller;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.projetoplaylist.entities.Playlist;
+import com.projetoplaylist.entities.dto.playlistdto.PlaylistGetDTO;
+import com.projetoplaylist.entities.dto.playlistdto.PlaylistPostDTO;
+import com.projetoplaylist.service.PlaylistService;
+
+
+@RestController
+@RequestMapping(value = "/playlist")
+public class PlaylistController {
+	
+	@Autowired
+	PlaylistService playlistService;
+	
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<PlaylistGetDTO> findById(@PathVariable Long id){
+		Playlist playlist = playlistService.findById(id);
+		PlaylistGetDTO playlistGetDTO = new PlaylistGetDTO(playlist);
+		return ResponseEntity.ok().body(playlistGetDTO);
+	}
+	
+	// encontra playlist que contém o nome que for passado na URL, por exemplo: /playlist?name=sertanejo
+	// caso nada for passado ele vai entrar no if e retornar todas as playlists
+	@GetMapping
+    public ResponseEntity<List<PlaylistGetDTO>> findAllOrByName(@RequestParam(required = false) String name) { // aqui quer dizer que posso procurar pelo nome da playlist, mas se não for passado nada não tem problema
+        if (name == null || name.isBlank()) {
+        	List<PlaylistGetDTO> list = playlistService.findAllGetPlaylist();
+        	return ResponseEntity.ok().body(list);
+        } else {
+        	List<Playlist> list = playlistService.findByName(name);
+        	List<PlaylistGetDTO> playlistGetDTO = list.stream().map(p -> new PlaylistGetDTO(p)).collect(Collectors.toList());
+        	return ResponseEntity.ok().body(playlistGetDTO);
+        }
+    }
+	
+	@PostMapping
+	public ResponseEntity<Playlist> createPlaylist(@RequestBody PlaylistPostDTO playlistDTO) {
+		Playlist playlist = playlistService.fromPlaylist(playlistDTO);
+		playlistService.saveNewPlaylist(playlist);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(playlist.getId())
+				.toUri(); // será a URL para pesquisar o novo User criado
+		return ResponseEntity.created(uri).body(playlist);
+	}
+	
+	// url para add uma musica na playlist: playlist/idDaPlaylist/music/idDaMusic
+	@PostMapping(value = "/{idPlaylist}/music/{idMusic}")
+	public ResponseEntity<Void> addMusicInPlaylist(@PathVariable Long idPlaylist, @PathVariable Long idMusic) {
+		playlistService.addMusicInPlaylist(idPlaylist, idMusic);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<PlaylistPostDTO> alterPlaylist(@PathVariable Long id, @RequestBody PlaylistPostDTO playlistPutDTO) {
+	    Playlist playlist = playlistService.findById(id);
+
+	    boolean isNameBlank = playlistPutDTO.getName() == null || playlistPutDTO.getName().isBlank();
+	    boolean isGenreBlank = playlistPutDTO.getGenre() == null || playlistPutDTO.getGenre().isBlank();
+
+	    if (isNameBlank && isGenreBlank) {
+	        return ResponseEntity.ok().build();
+	    }
+	    if (!isNameBlank) {
+	        playlist.setName(playlistPutDTO.getName());
+	    }
+	    if (!isGenreBlank) {
+	        playlist.setGenre(playlistPutDTO.getGenre());
+	    }
+	    playlistService.saveNewPlaylist(playlist);
+	    return ResponseEntity.ok().body(new PlaylistPostDTO(playlist));
+	}
+	
+	// faz o delete pelo nome ou id passado, a url deve ser: /playlist/delete?name=NomeDaPlaylist ou /playlist/delete?id=1
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity<Playlist> deleteByNameOrId(@RequestParam(required = false) Long id, @RequestParam(required = false) String name) {
+		playlistService.deletePlaylistByNameOrId(id, name);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping(value = "/{idPlaylist}/music/{idMusic}")
+	public ResponseEntity<Playlist> deleteMusicaInPlaylist(@PathVariable Long idPlaylist, @PathVariable Long idMusic){
+		playlistService.deleteMusicInPlaylist(idPlaylist, idMusic);
+		return ResponseEntity.noContent().build();
+	}
+}

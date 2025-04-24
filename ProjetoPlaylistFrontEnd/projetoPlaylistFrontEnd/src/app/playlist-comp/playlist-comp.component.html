@@ -1,0 +1,48 @@
+<h2>Gerenciar Playlists</h2>
+<div class="container">
+  <h2>Playlists</h2>
+
+  <!-- Botão para abrir o modal -->
+  <button class="addPlaylist" (click)="abrirModal()">Adicionar playlist</button>
+
+  <!-- Modal para adicionar nova playlist -->
+  <div class="modal-overlay" *ngIf="mostrarModal">
+    <div class="modal">
+      <h3>{{ editingId ? "Editar Playlist" : "Nova Playlist" }}</h3>
+      <!-- Formulário com Reactive Form -->
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <!-- Campo de nome da playlist -->
+        <input formControlName="name" placeholder="Nome da Playlist" />
+
+        <!-- Campo de gênero da playlist -->
+        <input formControlName="genre" placeholder="Gênero" />
+
+        <div class="modal-actions">
+          <!-- Botão de salvar, que dispara o submit do formulário -->
+          <button type="submit" [disabled]="form.invalid">Salvar</button>
+
+          <!-- Botão de cancelar, que fecha o modal -->
+          <button type="button" (click)="fecharModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Exibe a lista de playlists -->
+  <div *ngIf="playlists.length === 0">Nenhuma playlist encontrada.</div>
+
+  <div class="playlist-list">
+    <div class="playlist-card" *ngFor="let playlist of playlists">
+      <h3>{{ playlist.name }}</h3>
+      <p><strong>Gênero:</strong> {{ playlist.genre }}</p>
+      <p>
+        <strong>Quantidade de Músicas:</strong> {{ playlist.quantityMusic }}
+      </p>
+      <!-- Botões para adicionar música, editar e excluir playlist -->
+      <div class="playlist-actions">
+        <!--<button (click)="editPlaylist(playlist)">Editar Playlist</button>--->
+        <button (click)="confirmDelete(playlist.id)">Excluir Playlist</button>
+      </div>
+    </div>
+  </div>
+</div>
