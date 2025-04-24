@@ -1,1 +1,41 @@
-<p>music-comp works!</p>
+<div class="container">
+  <h2>Músicas</h2>
+
+  <!-- Barra de busca -->
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="filtroNome" placeholder="Buscar por nome" />
+    <button (click)="buscarPorNome()">Buscar</button>
+  </div>
+
+  <!-- Botão para abrir o modal de adicionar música -->
+  <button class="addMusic" (click)="abrirModal()">Adicionar Música</button>
+
+  <!-- Modal para adicionar ou editar música -->
+  <div class="modal-overlay" *ngIf="mostrarModal">
+    <div class="modal">
+      <h3>{{ editingId ? "Editar Música" : "Nova Música" }}</h3>
+      <!-- Formulário com Reactive Form -->
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <input formControlName="name" placeholder="Nome da Música" />
+        <input formControlName="artist" placeholder="Artista" />
+        <div class="modal-actions">
+          <button type="submit" [disabled]="form.invalid">Salvar</button>
+          <button type="button" (click)="fecharModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Exibe a lista de músicas -->
+  <div *ngIf="musics.length === 0">Nenhuma música encontrada.</div>
+  <div class="music-list">
+    <div class="music-card" *ngFor="let music of musics">
+      <h3>{{ music.name }}</h3>
+      <p><strong>Artista:</strong> {{ music.artist }}</p>
+      <div class="music-actions">
+        <button (click)="editMusic(music)">Editar Música</button>
+        <button (click)="confirmDelete(music.id)">Excluir Música</button>
+      </div>
+    </div>
+  </div>
+</div>

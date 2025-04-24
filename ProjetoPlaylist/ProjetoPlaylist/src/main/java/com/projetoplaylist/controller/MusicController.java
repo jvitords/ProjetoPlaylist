@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/music")
+@CrossOrigin(origins = "*")
 public class MusicController {
 
     @Autowired
