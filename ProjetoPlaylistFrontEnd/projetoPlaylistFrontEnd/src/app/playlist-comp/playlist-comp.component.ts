@@ -24,6 +24,10 @@ export class PlaylistCompComponent implements OnInit {
   editingId: number | null = null;
   mostrarModal = false;
 
+  // Novos campos para confirmação de exclusão
+  mostrarConfirmacao = false;
+  playlistIdParaExcluir: number | null = null;
+
   constructor(
     private fb: FormBuilder,
     private playlistService: PlaylistService
@@ -38,24 +42,20 @@ export class PlaylistCompComponent implements OnInit {
     this.loadPlaylists();
   }
 
-  // Abrir o modal para adicionar ou editar playlist
   abrirModal(): void {
     this.form.reset();
     this.mostrarModal = true;
-    this.editingId = null; // Limpa o estado de edição
+    this.editingId = null;
   }
 
-  // Fechar o modal
   fecharModal(): void {
     this.mostrarModal = false;
   }
 
-  // Submeter o formulário para criar ou editar uma playlist
   submitForm(): void {
     if (this.form.valid) {
       const novaPlaylist: PlaylistCreateDTO = this.form.value;
 
-      // Se estiver editando
       if (this.editingId) {
         this.playlistService.update(this.editingId, novaPlaylist).subscribe({
           next: () => {
@@ -67,9 +67,7 @@ export class PlaylistCompComponent implements OnInit {
             alert('Erro ao atualizar playlist');
           },
         });
-      }
-      // Se estiver criando uma nova playlist
-      else {
+      } else {
         this.playlistService.create(novaPlaylist).subscribe({
           next: () => {
             this.loadPlaylists();
@@ -84,7 +82,6 @@ export class PlaylistCompComponent implements OnInit {
     }
   }
 
-  // Editar uma playlist existente
   editPlaylist(playlist: Playlist): void {
     this.editingId = playlist.id;
     this.form.setValue({
@@ -94,22 +91,29 @@ export class PlaylistCompComponent implements OnInit {
     this.mostrarModal = true;
   }
 
-  // Deletar uma playlist por id
-  delete(id: number): void {
-    this.playlistService.delete(id).subscribe(() => {
-      this.loadPlaylists();
-    });
+  // Inicia o processo de confirmação
+  confirmDelete(playlistId: number): void {
+    this.playlistIdParaExcluir = playlistId;
+    this.mostrarConfirmacao = true;
   }
 
-  // Confirmar a exclusão de uma playlist
-  confirmDelete(playlistId: number): void {
-    const confirmed = confirm('Tem certeza que deseja excluir esta playlist?');
-    if (confirmed) {
-      this.delete(playlistId);
+  // Executa a exclusão após confirmação
+  confirmarExclusao(): void {
+    if (this.playlistIdParaExcluir !== null) {
+      this.playlistService.delete(this.playlistIdParaExcluir).subscribe(() => {
+        this.loadPlaylists();
+        this.mostrarConfirmacao = false;
+        this.playlistIdParaExcluir = null;
+      });
     }
   }
 
-  // Carregar todas as playlists
+  // Cancela a exclusão
+  cancelarExclusao(): void {
+    this.mostrarConfirmacao = false;
+    this.playlistIdParaExcluir = null;
+  }
+
   loadPlaylists(): void {
     this.playlistService.getAll().subscribe((listPlaylistBack) => {
       this.playlists = listPlaylistBack;
