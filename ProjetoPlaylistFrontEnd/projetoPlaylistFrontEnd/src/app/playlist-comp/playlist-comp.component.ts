@@ -4,6 +4,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +15,7 @@ import { PlaylistCreateDTO } from '../models/playlistCreateDTO';
 @Component({
   selector: 'app-playlist-comp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   templateUrl: './playlist-comp.component.html',
   styleUrls: ['./playlist-comp.component.css'],
 })
@@ -23,6 +24,7 @@ export class PlaylistCompComponent implements OnInit {
   playlists: Playlist[] = [];
   editingId: number | null = null;
   mostrarModal = false;
+  filtroNome: string = '';
 
   // Novos campos para confirmação de exclusão
   mostrarConfirmacao = false;
@@ -40,6 +42,16 @@ export class PlaylistCompComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPlaylists();
+  }
+
+  buscarPorNome(): void {
+    if (this.filtroNome.trim()) {
+      this.playlistService.getByName(this.filtroNome).subscribe((playlists) => {
+        this.playlists = playlists;
+      });
+    } else {
+      this.loadPlaylists(); // Se estiver vazio, volta a lista completa
+    }
   }
 
   abrirModal(): void {

@@ -16,6 +16,10 @@ export class PlaylistService {
   getAll(): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(this.apiUrl);
   }
+  // listar playlists pelo nome
+  getByName(name: string): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${this.apiUrl}?name=${name}`);
+  }
 
   // Criar uma nova playlist
   create(playlist: PlaylistCreateDTO): Observable<Playlist> {

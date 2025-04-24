@@ -1,4 +1,3 @@
-<h2>Gerenciar Playlists</h2>
 <div class="container">
   <h2>Playlists</h2>
 
@@ -24,6 +23,16 @@
     </div>
   </div>
 
+  <!-- Barra de busca -->
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="filtroNome"
+      placeholder="Buscar pelo nome"
+    />
+    <button (click)="buscarPorNome()">Buscar</button>
+  </div>
+
   <!-- Exibe a lista de playlists -->
   <div *ngIf="playlists.length === 0">Nenhuma playlist encontrada.</div>
   <div class="playlist-list">
@@ -36,7 +45,7 @@
 
       <!-- Botões para editar e excluir -->
       <div class="playlist-actions">
-        <!--<button (click)="editPlaylist(playlist)">Editar Playlist</button>-->
+        <button (click)="editPlaylist(playlist)">Editar Playlist</button>
         <button (click)="confirmDelete(playlist.id)">Excluir Playlist</button>
       </div>
     </div>
