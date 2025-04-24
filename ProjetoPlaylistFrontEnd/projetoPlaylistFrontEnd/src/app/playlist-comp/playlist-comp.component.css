@@ -13,10 +13,11 @@ h2 {
   color: #333;
 }
 
+/* Botão de adicionar playlist - Verde */
 .addPlaylist {
   margin: 20px 0;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 12px;
@@ -25,9 +26,10 @@ h2 {
 }
 
 .addPlaylist:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 
+/* Barra de busca */
 .search-bar {
   display: flex;
   gap: 10px;
@@ -41,9 +43,10 @@ h2 {
   border: 1px solid #ccc;
 }
 
+/* Botão de buscar - Azul */
 .search-bar button {
   padding: 8px 16px;
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -51,9 +54,10 @@ h2 {
 }
 
 .search-bar button:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
 
+/* Lista de playlists */
 .playlist-list {
   display: grid;
   gap: 20px;
@@ -76,6 +80,7 @@ h2 {
   margin: 8px 0;
 }
 
+/* Botões de ação - Editar e Excluir */
 .playlist-actions {
   margin-top: 12px;
   display: flex;
@@ -92,22 +97,25 @@ h2 {
   transition: background-color 0.2s ease-in-out;
 }
 
+/* Botão de editar - Roxo */
 .playlist-actions button:first-child {
-  background-color: #0d6efd; /* Azul para editar */
+  background-color: #9b7ad9;
 }
 
 .playlist-actions button:first-child:hover {
-  background-color: #0b5ed7;
+  background-color: #5936a7;
 }
 
+/* Botão de excluir - Vermelho */
 .playlist-actions button:last-child {
-  background-color: #dc3545; /* Vermelho para excluir */
+  background-color: #dc3545;
 }
 
 .playlist-actions button:last-child:hover {
   background-color: #b02a37;
 }
 
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -143,6 +151,7 @@ h2 {
   border: 1px solid #ccc;
 }
 
+/* Botões dentro do modal */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -157,6 +166,7 @@ h2 {
   cursor: pointer;
 }
 
+/* Botão de salvar no modal - Azul */
 .modal-actions button[type="submit"] {
   background-color: #007bff;
   color: white;
@@ -166,8 +176,14 @@ h2 {
   background-color: #0056b3;
 }
 
+/* Botão de cancelar no modal - Cinza */
 .modal-actions button[type="button"] {
   background-color: #6c757d;
+  color: white;
+}
+
+.modal-actions button[type="confirmar"] {
+  background-color: #f01c51;
   color: white;
 }
 

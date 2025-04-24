@@ -2,7 +2,8 @@
   <h2>Playlists</h2>
 
   <!-- Botão para abrir o modal de adicionar playlist-->
-  <button class="addPlaylist" (click)="abrirModal()">Adicionar playlist</button>
+  <button class="addPlaylist" (click)="abrirModal()">Adicionar Playlist</button>
+
   <!-- Modal para adicionar nova playlist -->
   <div class="modal-overlay" *ngIf="mostrarModal">
     <div class="modal">
@@ -37,7 +38,7 @@
   <div *ngIf="playlists.length === 0">Nenhuma playlist encontrada.</div>
   <div class="playlist-list">
     <div class="playlist-card" *ngFor="let playlist of playlists">
-      <h3>{{ playlist.name }}</h3>
+      <h3 (click)="toggleMusicas(playlist.id)">{{ playlist.name }}</h3>
       <p><strong>Gênero:</strong> {{ playlist.genre }}</p>
       <p>
         <strong>Quantidade de Músicas:</strong> {{ playlist.quantityMusic }}
@@ -47,6 +48,13 @@
       <div class="playlist-actions">
         <button (click)="editPlaylist(playlist)">Editar Playlist</button>
         <button (click)="confirmDelete(playlist.id)">Excluir Playlist</button>
+      </div>
+
+      <!-- Lista de músicas, visível se a playlist for clicada -->
+      <div *ngIf="mostrarMusicas === playlist.id">
+        <ul>
+          <li *ngFor="let music of playlist.listMusics">{{ music.name }}</li>
+        </ul>
       </div>
     </div>
   </div>

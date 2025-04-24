@@ -3,8 +3,8 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  ReactiveFormsModule,
   FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,10 +25,9 @@ export class PlaylistCompComponent implements OnInit {
   editingId: number | null = null;
   mostrarModal = false;
   filtroNome: string = '';
-
-  // Novos campos para confirmação de exclusão
   mostrarConfirmacao = false;
   playlistIdParaExcluir: number | null = null;
+  mostrarMusicas: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +43,7 @@ export class PlaylistCompComponent implements OnInit {
     this.loadPlaylists();
   }
 
+  // Função para buscar playlists por nome
   buscarPorNome(): void {
     if (this.filtroNome.trim()) {
       this.playlistService.getByName(this.filtroNome).subscribe((playlists) => {
@@ -54,16 +54,19 @@ export class PlaylistCompComponent implements OnInit {
     }
   }
 
+  // Função para abrir o modal de adicionar ou editar playlist
   abrirModal(): void {
     this.form.reset();
     this.mostrarModal = true;
     this.editingId = null;
   }
 
+  // Função para fechar o modal
   fecharModal(): void {
     this.mostrarModal = false;
   }
 
+  // Função para submeter o formulário de criar ou editar playlist
   submitForm(): void {
     if (this.form.valid) {
       const novaPlaylist: PlaylistCreateDTO = this.form.value;
@@ -94,6 +97,7 @@ export class PlaylistCompComponent implements OnInit {
     }
   }
 
+  // Função para editar uma playlist
   editPlaylist(playlist: Playlist): void {
     this.editingId = playlist.id;
     this.form.setValue({
@@ -103,13 +107,13 @@ export class PlaylistCompComponent implements OnInit {
     this.mostrarModal = true;
   }
 
-  // Inicia o processo de confirmação
+  // Função para iniciar a confirmação de exclusão
   confirmDelete(playlistId: number): void {
     this.playlistIdParaExcluir = playlistId;
     this.mostrarConfirmacao = true;
   }
 
-  // Executa a exclusão após confirmação
+  // Função para executar a exclusão após confirmação
   confirmarExclusao(): void {
     if (this.playlistIdParaExcluir !== null) {
       this.playlistService.delete(this.playlistIdParaExcluir).subscribe(() => {
@@ -120,15 +124,22 @@ export class PlaylistCompComponent implements OnInit {
     }
   }
 
-  // Cancela a exclusão
+  // Função para cancelar a exclusão
   cancelarExclusao(): void {
     this.mostrarConfirmacao = false;
     this.playlistIdParaExcluir = null;
   }
 
+  // Função para carregar as playlists
   loadPlaylists(): void {
     this.playlistService.getAll().subscribe((listPlaylistBack) => {
       this.playlists = listPlaylistBack;
     });
+  }
+
+  // Função para alternar a exibição das músicas
+  toggleMusicas(playlistId: number): void {
+    this.mostrarMusicas =
+      this.mostrarMusicas === playlistId ? null : playlistId;
   }
 }
