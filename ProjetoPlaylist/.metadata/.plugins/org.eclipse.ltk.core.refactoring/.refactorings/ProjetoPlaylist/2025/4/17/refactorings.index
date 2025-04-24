@@ -1,3 +1,5 @@
 1745360464451	Rename package 'com.projetoplaylist.entities.playlistdto'
 1745360705625	Delete element
 1745369683836	Rename type 'MusicPostDTO'
+1745530267721	Rename type 'MusicDTO'
+1745530318093	Copy compilation unit

@@ -69,20 +69,22 @@ export class MusicCompComponent implements OnInit {
 
   // Função para submeter o formulário de criação ou edição
   submitForm(): void {
+    console.log('Formulário enviado:', this.form.value);
+    console.log('É válido?', this.form.valid);
+
     if (this.form.valid) {
       const novaMusic: MusicCreateDTO = this.form.value;
 
-      if (this.editingId) {
-        this.musicService.update(this.editingId, novaMusic).subscribe(() => {
-          this.loadMusics(); // Atualiza a lista de músicas
-          this.fecharModal(); // Fecha o modal
-        });
-      } else {
-        this.musicService.create(novaMusic).subscribe(() => {
-          this.loadMusics(); // Atualiza a lista de músicas
-          this.fecharModal(); // Fecha o modal
-        });
-      }
+      this.musicService.create(novaMusic).subscribe({
+        next: () => {
+          this.loadMusics();
+          this.fecharModal();
+        },
+        error: (err) => {
+          console.error('Erro ao criar música:', err);
+          alert('Erro ao criar música!');
+        },
+      });
     }
   }
 

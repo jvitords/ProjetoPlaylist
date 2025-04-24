@@ -4,7 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.projetoplaylist.entities.dto.musicdto.MusicDTO;
+import com.projetoplaylist.entities.dto.musicdto.MusicGetDTO;
+import com.projetoplaylist.entities.dto.musicdto.MusicPostDTO;
 import com.projetoplaylist.entities.Music;
 import com.projetoplaylist.service.MusicService;
 
@@ -25,42 +26,42 @@ public class MusicController {
 
     // url: /muusic?name=nomeDesejado
     @GetMapping
-    public ResponseEntity<List<MusicDTO>> findAllOrByName(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<MusicGetDTO>> findAllOrByName(@RequestParam(required = false) String name) {
         if (name == null || name.isBlank()) {
             List<Music> list = musicService.findAll();
-            List<MusicDTO> dtoList = list.stream().map(MusicDTO::new).collect(Collectors.toList());
+            List<MusicGetDTO> dtoList = list.stream().map(MusicGetDTO::new).collect(Collectors.toList());
             return ResponseEntity.ok().body(dtoList);
         } else {
             List<Music> list = musicService.findByName(name);
-            List<MusicDTO> dtoList = list.stream().map(MusicDTO::new).collect(Collectors.toList());
+            List<MusicGetDTO> dtoList = list.stream().map(MusicGetDTO::new).collect(Collectors.toList());
             return ResponseEntity.ok().body(dtoList);
         }
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<MusicDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<MusicGetDTO> findById(@PathVariable Long id) {
         Music music = musicService.findById(id);
-        MusicDTO dto = new MusicDTO(music);
+        MusicGetDTO dto = new MusicGetDTO(music);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<MusicDTO> saveNewMusic(@RequestBody @Valid MusicDTO musicDto) {
+    public ResponseEntity<MusicGetDTO> saveNewMusic(@RequestBody @Valid MusicPostDTO musicDto) {
         Music music = musicService.fromMusic(musicDto);
         musicService.saveNewMusic(music);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(music.getId())
             .toUri();
-        return ResponseEntity.created(uri).body(musicDto);
+        return ResponseEntity.created(uri).body(new MusicGetDTO(music));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MusicDTO> updateMusic(@PathVariable Long id, @RequestBody MusicDTO musicDto) {
+    public ResponseEntity<MusicGetDTO> updateMusic(@PathVariable Long id, @RequestBody MusicPostDTO musicDto) {
         Music updatedMusic = musicService.updateMusic(id, musicDto);
-        MusicDTO responseDTO = new MusicDTO(updatedMusic);
-        return ResponseEntity.ok().body(responseDTO);
+        MusicPostDTO responseDTO = new MusicPostDTO(updatedMusic);
+        return ResponseEntity.ok().body(new MusicGetDTO(updatedMusic));
     }
 
 

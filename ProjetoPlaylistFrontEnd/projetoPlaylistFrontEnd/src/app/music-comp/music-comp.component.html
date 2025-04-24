@@ -32,6 +32,7 @@
     <div class="music-card" *ngFor="let music of musics">
       <h3>{{ music.name }}</h3>
       <p><strong>Artista:</strong> {{ music.artist }}</p>
+      <p><strong>ID:</strong> {{ music.id }}</p>
       <div class="music-actions">
         <button (click)="editMusic(music)">Editar Música</button>
         <button (click)="confirmDelete(music.id)">Excluir Música</button>

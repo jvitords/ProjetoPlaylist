@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetoplaylist.entities.Music;
-import com.projetoplaylist.entities.dto.musicdto.MusicDTO;
+import com.projetoplaylist.entities.dto.musicdto.MusicPostDTO;
 import com.projetoplaylist.repository.MusicRepository;
 import com.projetoplaylist.service.exception.NotFoundException;
 
@@ -23,7 +23,7 @@ public class MusicService {
 		this.musicRepository = musicRepository;
 	}
 	
-	public Music fromMusic(MusicDTO musicPostDTO) {
+	public Music fromMusic(MusicPostDTO musicPostDTO) {
 		Music music = new Music();
 		music.setName(musicPostDTO.getName());
 		music.setArtist(musicPostDTO.getArtist());
@@ -50,7 +50,7 @@ public class MusicService {
 	    musicRepository.save(music);
 	}
 	
-	public Music updateMusic(Long id, MusicDTO dto) {
+	public Music updateMusic(Long id, MusicPostDTO dto) {
 	    Music music = findById(id);
 
 	    boolean isNameBlank = dto.getName() == null || dto.getName().isBlank();
