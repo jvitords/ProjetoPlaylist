@@ -70,7 +70,7 @@ export class MusicCompComponent implements OnInit {
   // Função para submeter o formulário de criação ou edição
   submitForm(): void {
     if (this.form.valid) {
-      const novaMusic: Music = this.form.value;
+      const novaMusic: MusicCreateDTO = this.form.value;
 
       if (this.editingId) {
         this.musicService.update(this.editingId, novaMusic).subscribe(() => {
