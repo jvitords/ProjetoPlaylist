@@ -29,7 +29,6 @@ export class MusicCompComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       artist: ['', Validators.required],
-      genre: ['', Validators.required],
     });
   }
 
