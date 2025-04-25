@@ -1410,3 +1410,25 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: start tag u
 2025-04-25 14:29:19,813 [Worker-27: Launching ProjetoPlaylist - ProjetoPlaylistApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
 2025-04-25 14:29:20,190 [Worker-27: Launching ProjetoPlaylist - ProjetoPlaylistApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2025-04-25 14:29:20,216 [Worker-27: Launching ProjetoPlaylist - ProjetoPlaylistApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:12:21,069 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-12.0.15; built: 2024-11-05T19:44:57.623Z; git: 8281ae9740d4b4225e8166cc476bad237c70213a; jvm 21.0.6+7-LTS
+2025-04-25 18:12:21,169 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started oeje8n.ContextHandler$CoreContextHandler@74984958{/help,/help,b=null,a=AVAILABLE,h=oeje8n.ContextHandler$CoreContextHandler$CoreToNestedHandler@5d4a9012{STARTED}}
+2025-04-25 18:12:21,171 [Start Help Server] INFO  o.e.j.s.DefaultSessionIdManager - Session workerName=node0
+2025-04-25 18:12:21,221 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@24630623{HTTP/1.1, (http/1.1)}{127.0.0.1:58032}
+2025-04-25 18:12:21,268 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started oejs.Server@64afb299{STARTING}[12.0.15,sto=0] @31095931ms
+2025-04-25 18:21:54,232 [Worker-24: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
+2025-04-25 18:21:54,302 [Worker-24: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-25 18:21:54,333 [Worker-24: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:42:57,919 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
+2025-04-25 18:42:58,000 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-25 18:42:58,007 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:43:03,856 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
+2025-04-25 18:43:03,894 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-25 18:43:03,900 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:50:06,575 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
+2025-04-25 18:50:06,610 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-25 18:50:06,616 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:51:31,706 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
+2025-04-25 18:51:31,730 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-25 18:51:31,733 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2025-04-25 18:55:12,173 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@64afb299{STOPPING}[12.0.15,sto=0]
+2025-04-25 18:55:12,190 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@24630623{HTTP/1.1, (http/1.1)}{127.0.0.1:0}

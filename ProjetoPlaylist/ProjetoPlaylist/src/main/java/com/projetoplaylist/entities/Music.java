@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Music implements Serializable {
 	private String artist;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "listMusics")
+	@ManyToMany(mappedBy = "listMusics",cascade = CascadeType.PERSIST)
 	private List<Playlist> playlist;
 	
 	public Music() {}

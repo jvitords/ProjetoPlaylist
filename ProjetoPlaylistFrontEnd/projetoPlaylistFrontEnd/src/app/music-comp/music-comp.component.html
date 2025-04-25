@@ -2,13 +2,12 @@
   <h2>Músicas</h2>
 
   <!-- Barra de busca -->
-  <div class="search-bar">
+  <div class="filter-container">
     <input type="text" [(ngModel)]="filtroNome" placeholder="Buscar por nome" />
     <button (click)="buscarPorNome()">Buscar</button>
+    <!-- Botão para abrir o modal de adicionar música -->
+    <button (click)="abrirModal()">Nova Música</button>
   </div>
-
-  <!-- Botão para abrir o modal de adicionar música -->
-  <button class="addMusic" (click)="abrirModal()">Adicionar Música</button>
 
   <!-- Modal para adicionar, editar ou excluir música -->
   <div class="modal-overlay" *ngIf="mostrarModal">
@@ -54,10 +53,11 @@
     <div class="music-card" *ngFor="let music of musics">
       <h3>{{ music.name }}</h3>
       <p><strong>Artista:</strong> {{ music.artist }}</p>
-      <p><strong>ID:</strong> {{ music.id }}</p>
       <div class="music-actions">
-        <button (click)="editMusic(music)">Editar Música</button>
-        <button (click)="abrirConfirmacaoExclusao(music)">
+        <button class="edit-btn" (click)="editMusic(music)">
+          Editar Música
+        </button>
+        <button class="delete-btn" (click)="abrirConfirmacaoExclusao(music)">
           Excluir Música
         </button>
       </div>
