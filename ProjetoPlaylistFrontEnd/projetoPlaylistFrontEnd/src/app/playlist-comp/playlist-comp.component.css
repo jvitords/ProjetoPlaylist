@@ -13,13 +13,15 @@
   margin-bottom: 20px;
 }
 
-/* Lista de playlists */
+/* Lista de playlists na horizontal */
 .playlist-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap; /* Permite que as playlists se movam para a linha seguinte se não houver espaço */
   gap: 15px;
+  justify-content: flex-start;
 }
 
+/* Cartões de playlist */
 .playlist-card {
   background-color: #f4f4f4;
   border-radius: 8px;
@@ -27,6 +29,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: 0.2s;
+  width: 250px; /* Largura fixa para cada cartão */
 }
 
 .playlist-card:hover {
@@ -66,6 +69,24 @@ button {
 .confirm-btn {
   background-color: #28a745;
   color: white;
+}
+
+/* Lista de músicas na horizontal */
+.playlist-music-list {
+  display: flex;
+  flex-wrap: wrap; /* Permite que as músicas se movam para a linha seguinte se não houver espaço */
+  gap: 10px;
+}
+
+.playlist-music-list li {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 150px; /* Largura fixa para cada música */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Modal genérico */
@@ -110,7 +131,7 @@ button {
 }
 
 /* Mensagem de sucesso fixa no topo */
-.success-toast {
+.success-message {
   position: fixed;
   top: 15px;
   left: 50%;
@@ -120,7 +141,7 @@ button {
   padding: 10px 20px;
   border-radius: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 2000;
+  z-index: 9999;
   animation: fadeInOut 3s forwards;
 }
 

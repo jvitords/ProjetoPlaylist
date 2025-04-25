@@ -34,6 +34,7 @@ export class PlaylistCompComponent implements OnInit {
   mostrarConfirmacaoMusica = false;
   musicaIdParaExcluir: number | null = null;
   musicaAdicionadaComSucesso = false;
+  playlistIdParaRemoverMusica: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -170,22 +171,27 @@ export class PlaylistCompComponent implements OnInit {
 
   // Função para remover música de uma playlist
   confirmDeleteMusica(idPlaylist: number, idMusic: number): void {
+    this.playlistIdParaRemoverMusica = idPlaylist;
     this.musicaIdParaExcluir = idMusic;
     this.mostrarConfirmacaoMusica = true;
   }
 
   // Função para confirmar a exclusão de uma música
   confirmarExclusaoMusica(): void {
-    if (this.musicaIdParaExcluir !== null) {
+    if (
+      this.musicaIdParaExcluir !== null &&
+      this.playlistIdParaRemoverMusica !== null
+    ) {
       this.playlistService
         .removerMusicaDaPlaylist(
-          this.playlistSelecionada!,
+          this.playlistIdParaRemoverMusica,
           this.musicaIdParaExcluir
         )
         .subscribe(() => {
           this.mostrarConfirmacaoMusica = false;
           this.musicaIdParaExcluir = null;
-          this.atualizarPlaylist(this.playlistSelecionada!);
+          this.atualizarPlaylist(this.playlistIdParaRemoverMusica!);
+          this.playlistIdParaRemoverMusica = null;
         });
     }
   }
@@ -194,6 +200,7 @@ export class PlaylistCompComponent implements OnInit {
   cancelarExclusaoMusica(): void {
     this.mostrarConfirmacaoMusica = false;
     this.musicaIdParaExcluir = null;
+    this.playlistIdParaRemoverMusica = null;
   }
 
   // Função para atualizar a playlist após adicionar ou remover músicas
@@ -218,5 +225,13 @@ export class PlaylistCompComponent implements OnInit {
   toggleMusicas(playlistId: number): void {
     this.mostrarMusicas =
       this.mostrarMusicas === playlistId ? null : playlistId;
+  }
+
+  // Exibe a mensagem de sucesso
+  mostrarMensagemSucesso() {
+    this.musicaAdicionadaComSucesso = true;
+    setTimeout(() => {
+      this.musicaAdicionadaComSucesso = false;
+    }, 3000);
   }
 }

@@ -39,10 +39,10 @@
         </p>
 
         <div class="modal-actions">
+          <button type="button" (click)="fecharModal()">Cancelar</button>
           <button type="submit" [disabled]="!modoExclusao && form.invalid">
             {{ modoExclusao ? "Confirmar Exclusão" : "Salvar" }}
           </button>
-          <button type="button" (click)="fecharModal()">Cancelar</button>
         </div>
       </form>
     </div>
