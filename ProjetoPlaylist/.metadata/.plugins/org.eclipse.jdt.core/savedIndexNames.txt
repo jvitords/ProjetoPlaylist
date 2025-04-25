@@ -29,8 +29,8 @@ INDEX VERSION 1.134+C:\Estudos\ProjetoPlaylist\ProjetoPlaylist\.metadata\.plugin
 2725008532.index
 2590295450.index
 1826986758.index
-3679639272.index
 962570289.index
+3679639272.index
 2328714608.index
 1703048329.index
 1239985134.index
@@ -40,8 +40,8 @@ INDEX VERSION 1.134+C:\Estudos\ProjetoPlaylist\ProjetoPlaylist\.metadata\.plugin
 753694698.index
 652562777.index
 3208707211.index
-1468351939.index
 2991319401.index
+1468351939.index
 870237085.index
 3727968659.index
 2234700098.index
@@ -53,10 +53,10 @@ INDEX VERSION 1.134+C:\Estudos\ProjetoPlaylist\ProjetoPlaylist\.metadata\.plugin
 4091659204.index
 3790999180.index
 2575667919.index
-2765214545.index
+2592431846.index
 1865797976.index
 3989753626.index
-2592431846.index
+2765214545.index
 2632361933.index
 3930381574.index
 1779098548.index

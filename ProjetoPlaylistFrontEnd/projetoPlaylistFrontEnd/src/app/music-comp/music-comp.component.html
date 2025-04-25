@@ -10,23 +10,45 @@
   <!-- Botão para abrir o modal de adicionar música -->
   <button class="addMusic" (click)="abrirModal()">Adicionar Música</button>
 
-  <!-- Modal para adicionar ou editar música -->
+  <!-- Modal para adicionar, editar ou excluir música -->
   <div class="modal-overlay" *ngIf="mostrarModal">
     <div class="modal">
-      <h3>{{ editingId ? "Editar Música" : "Nova Música" }}</h3>
-      <!-- Formulário com Reactive Form -->
+      <h3>
+        {{
+          modoExclusao
+            ? "Confirmar Exclusão"
+            : editingId
+            ? "Editar Música"
+            : "Nova Música"
+        }}
+      </h3>
+
       <form [formGroup]="form" (ngSubmit)="submitForm()">
-        <input formControlName="name" placeholder="Nome da Música" />
-        <input formControlName="artist" placeholder="Artista" />
+        <!-- Campos visíveis apenas se não for modoExclusao -->
+        <div *ngIf="!modoExclusao">
+          <input formControlName="name" placeholder="Nome da Música" />
+          <input formControlName="artist" placeholder="Artista" />
+        </div>
+
+        <!-- Mensagem de confirmação no modo de exclusão -->
+        <p *ngIf="modoExclusao">
+          Tem certeza que deseja excluir a música
+          <strong>{{ form.value.name }}</strong> de
+          <strong>{{ form.value.artist }}</strong
+          >?
+        </p>
+
         <div class="modal-actions">
-          <button type="submit" [disabled]="form.invalid">Salvar</button>
+          <button type="submit" [disabled]="!modoExclusao && form.invalid">
+            {{ modoExclusao ? "Confirmar Exclusão" : "Salvar" }}
+          </button>
           <button type="button" (click)="fecharModal()">Cancelar</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Exibe a lista de músicas -->
+  <!-- Lista de músicas -->
   <div *ngIf="musics.length === 0">Nenhuma música encontrada.</div>
   <div class="music-list">
     <div class="music-card" *ngFor="let music of musics">
@@ -35,7 +57,9 @@
       <p><strong>ID:</strong> {{ music.id }}</p>
       <div class="music-actions">
         <button (click)="editMusic(music)">Editar Música</button>
-        <button (click)="confirmDelete(music.id)">Excluir Música</button>
+        <button (click)="abrirConfirmacaoExclusao(music)">
+          Excluir Música
+        </button>
       </div>
     </div>
   </div>

@@ -21,6 +21,10 @@ export class PlaylistService {
     return this.http.get<Playlist[]>(`${this.apiUrl}?name=${name}`);
   }
 
+  getById(id: number): Observable<Playlist> {
+    return this.http.get<Playlist>(`${this.apiUrl}/${id}`);
+  }
+
   // Criar uma nova playlist
   create(playlist: PlaylistCreateDTO): Observable<Playlist> {
     return this.http.post<Playlist>(this.apiUrl, playlist);
@@ -34,5 +38,18 @@ export class PlaylistService {
   // Excluir uma playlist
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  adicionarMusicaNaPlaylist(idPlaylist: number, idMusic: number) {
+    return this.http.post<void>(
+      `${this.apiUrl}/${idPlaylist}/music/${idMusic}`,
+      {}
+    );
+  }
+
+  removerMusicaDaPlaylist(idPlaylist: number, idMusic: number) {
+    return this.http.delete<void>(
+      `${this.apiUrl}/${idPlaylist}/music/${idMusic}`
+    );
   }
 }

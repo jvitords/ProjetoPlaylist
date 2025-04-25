@@ -24,6 +24,7 @@ export class MusicCompComponent implements OnInit {
   editingId: number | null = null;
   mostrarModal = false;
   filtroNome: string = '';
+  modoExclusao: boolean = false;
 
   constructor(private fb: FormBuilder, private musicService: MusicService) {
     this.form = this.fb.group({
@@ -58,7 +59,8 @@ export class MusicCompComponent implements OnInit {
   abrirModal(): void {
     this.form.reset();
     this.mostrarModal = true;
-    this.editingId = null; // Limpa o campo de edição
+    this.editingId = null;
+    this.modoExclusao = false;
   }
 
   // Função para fechar o modal
@@ -68,31 +70,57 @@ export class MusicCompComponent implements OnInit {
 
   // Função para submeter o formulário de criação ou edição
   submitForm(): void {
-    console.log('Formulário enviado:', this.form.value);
-    console.log('É válido?', this.form.valid);
+    if (this.modoExclusao && this.editingId) {
+      this.musicService.delete(this.editingId).subscribe(() => {
+        this.loadMusics();
+        this.fecharModal();
+      });
+      return;
+    }
 
     if (this.form.valid) {
       const novaMusic: MusicCreateDTO = this.form.value;
 
-      this.musicService.create(novaMusic).subscribe({
-        next: () => {
-          this.loadMusics();
-          this.fecharModal();
-        },
-        error: (err) => {
-          console.error('Erro ao criar música:', err);
-          alert('Erro ao criar música!');
-        },
-      });
+      if (this.editingId) {
+        const musicAtualizada: Music = {
+          id: this.editingId,
+          ...novaMusic,
+        };
+
+        this.musicService.update(this.editingId, musicAtualizada).subscribe({
+          next: () => {
+            this.loadMusics();
+            this.fecharModal();
+            this.editingId = null;
+          },
+          error: (err) => {
+            console.error('Erro ao atualizar música:', err);
+            alert('Erro ao atualizar música!');
+          },
+        });
+      } else {
+        this.musicService.create(novaMusic).subscribe({
+          next: () => {
+            this.loadMusics();
+            this.fecharModal();
+          },
+          error: (err) => {
+            console.error('Erro ao criar música:', err);
+            alert('Erro ao criar música!');
+          },
+        });
+      }
     }
   }
 
   // Função para editar uma música
-  editMusic(music: MusicCreateDTO): void {
+  editMusic(music: Music): void {
     this.form.setValue({
       name: music.name,
       artist: music.artist,
     });
+    this.editingId = music.id;
+    this.modoExclusao = false;
     this.mostrarModal = true;
   }
 
@@ -103,5 +131,15 @@ export class MusicCompComponent implements OnInit {
         this.loadMusics(); // Atualiza a lista após a exclusão
       });
     }
+  }
+
+  abrirConfirmacaoExclusao(music: Music): void {
+    this.editingId = music.id;
+    this.form.setValue({
+      name: music.name,
+      artist: music.artist,
+    });
+    this.modoExclusao = true;
+    this.mostrarModal = true;
   }
 }

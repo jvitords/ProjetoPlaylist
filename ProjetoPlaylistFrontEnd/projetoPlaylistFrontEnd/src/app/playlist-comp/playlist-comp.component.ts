@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { PlaylistService } from '../services/playlist.service';
 import { Playlist } from '../models/playlist.model';
 import { PlaylistCreateDTO } from '../models/playlistCreateDTO';
+import { MusicService } from '../services/music.service';
 
 @Component({
   selector: 'app-playlist-comp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule],
   templateUrl: './playlist-comp.component.html',
   styleUrls: ['./playlist-comp.component.css'],
 })
@@ -28,10 +29,16 @@ export class PlaylistCompComponent implements OnInit {
   mostrarConfirmacao = false;
   playlistIdParaExcluir: number | null = null;
   mostrarMusicas: number | null = null;
+  playlistSelecionada: number | null = null;
+  musicasDisponiveis: any[] = [];
+  mostrarConfirmacaoMusica = false;
+  musicaIdParaExcluir: number | null = null;
+  musicaAdicionadaComSucesso = false;
 
   constructor(
     private fb: FormBuilder,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private musicService: MusicService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -128,6 +135,76 @@ export class PlaylistCompComponent implements OnInit {
   cancelarExclusao(): void {
     this.mostrarConfirmacao = false;
     this.playlistIdParaExcluir = null;
+  }
+
+  // Função para abrir a seleção de músicas para uma playlist
+  abrirSelecaoMusicas(idPlaylist: number): void {
+    this.playlistSelecionada = idPlaylist;
+    this.carregarMusicasDisponiveis(); // Carrega as músicas disponíveis
+  }
+
+  // Função para fechar o modal de seleção de músicas
+  fecharSelecaoMusicas(): void {
+    this.playlistSelecionada = null;
+  }
+
+  // Função para carregar todas as músicas disponíveis
+  carregarMusicasDisponiveis(): void {
+    this.musicService.getAll().subscribe((data) => {
+      this.musicasDisponiveis = data;
+    });
+  }
+
+  // Função para adicionar uma música à playlist selecionada
+  adicionarMusica(idPlaylist: number, idMusic: number): void {
+    this.playlistService
+      .adicionarMusicaNaPlaylist(idPlaylist, idMusic)
+      .subscribe(() => {
+        this.musicaAdicionadaComSucesso = true;
+        setTimeout(() => {
+          this.musicaAdicionadaComSucesso = false;
+        }, 3000);
+        this.atualizarPlaylist(idPlaylist);
+      });
+  }
+
+  // Função para remover música de uma playlist
+  confirmDeleteMusica(idPlaylist: number, idMusic: number): void {
+    this.musicaIdParaExcluir = idMusic;
+    this.mostrarConfirmacaoMusica = true;
+  }
+
+  // Função para confirmar a exclusão de uma música
+  confirmarExclusaoMusica(): void {
+    if (this.musicaIdParaExcluir !== null) {
+      this.playlistService
+        .removerMusicaDaPlaylist(
+          this.playlistSelecionada!,
+          this.musicaIdParaExcluir
+        )
+        .subscribe(() => {
+          this.mostrarConfirmacaoMusica = false;
+          this.musicaIdParaExcluir = null;
+          this.atualizarPlaylist(this.playlistSelecionada!);
+        });
+    }
+  }
+
+  // Função para cancelar a exclusão de música
+  cancelarExclusaoMusica(): void {
+    this.mostrarConfirmacaoMusica = false;
+    this.musicaIdParaExcluir = null;
+  }
+
+  // Função para atualizar a playlist após adicionar ou remover músicas
+  atualizarPlaylist(idPlaylist: number): void {
+    this.playlistService.getById(idPlaylist).subscribe((playlistAtualizada) => {
+      const index = this.playlists.findIndex((p) => p.id === idPlaylist);
+      if (index !== -1) {
+        // Substitui o objeto inteiro, disparando detecção de mudança
+        this.playlists[index] = { ...playlistAtualizada };
+      }
+    });
   }
 
   // Função para carregar as playlists

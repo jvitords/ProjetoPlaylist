@@ -1,72 +1,161 @@
 <div class="container">
+  <!-- Mensagem de sucesso -->
+  <div *ngIf="musicaAdicionadaComSucesso" class="success-message">
+    Música adicionada com sucesso!
+  </div>
+
   <h2>Playlists</h2>
 
-  <!-- Botão para abrir o modal de adicionar playlist-->
-  <button class="addPlaylist" (click)="abrirModal()">Adicionar Playlist</button>
-
-  <!-- Modal para adicionar nova playlist -->
-  <div class="modal-overlay" *ngIf="mostrarModal">
-    <div class="modal">
-      <h3>{{ editingId ? "Editar Playlist" : "Nova Playlist" }}</h3>
-      <!-- Formulário com Reactive Form -->
-      <form [formGroup]="form" (ngSubmit)="submitForm()">
-        <!-- Campo de nome da playlist -->
-        <input formControlName="name" placeholder="Nome da Playlist" />
-        <!-- Campo de gênero da playlist -->
-        <input formControlName="genre" placeholder="Gênero" />
-        <div class="modal-actions">
-          <!-- Botão de salvar, que dispara o submit do formulário -->
-          <button type="submit" [disabled]="form.invalid">Salvar</button>
-          <!-- Botão de cancelar, que fecha o modal -->
-          <button type="button" (click)="fecharModal()">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Barra de busca -->
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="filtroNome"
-      placeholder="Buscar pelo nome"
-    />
+  <!-- Campo de filtro -->
+  <div class="filter-container">
+    <input type="text" [(ngModel)]="filtroNome" placeholder="Buscar por nome" />
     <button (click)="buscarPorNome()">Buscar</button>
+    <button (click)="abrirModal()">Nova Playlist</button>
   </div>
 
-  <!-- Exibe a lista de playlists -->
+  <!-- Lista de playlists -->
   <div *ngIf="playlists.length === 0">Nenhuma playlist encontrada.</div>
   <div class="playlist-list">
-    <div class="playlist-card" *ngFor="let playlist of playlists">
-      <h3 (click)="toggleMusicas(playlist.id)">{{ playlist.name }}</h3>
+    <div
+      class="playlist-card"
+      *ngFor="let playlist of playlists"
+      (click)="toggleMusicas(playlist.id)"
+    >
+      <h3>{{ playlist.name }}</h3>
       <p><strong>Gênero:</strong> {{ playlist.genre }}</p>
       <p>
         <strong>Quantidade de Músicas:</strong> {{ playlist.quantityMusic }}
       </p>
 
-      <!-- Botões para editar e excluir -->
+      <!-- Ações -->
       <div class="playlist-actions">
-        <button (click)="editPlaylist(playlist)">Editar Playlist</button>
-        <button (click)="confirmDelete(playlist.id)">Excluir Playlist</button>
+        <button
+          class="edit-btn"
+          (click)="editPlaylist(playlist); $event.stopPropagation()"
+        >
+          Editar Playlist
+        </button>
+        <button
+          class="delete-btn"
+          (click)="confirmDelete(playlist.id); $event.stopPropagation()"
+        >
+          Excluir Playlist
+        </button>
+        <button
+          class="addPlaylist"
+          (click)="abrirSelecaoMusicas(playlist.id); $event.stopPropagation()"
+        >
+          Adicionar Música
+        </button>
       </div>
 
-      <!-- Lista de músicas, visível se a playlist for clicada -->
+      <!-- Músicas da playlist -->
       <div *ngIf="mostrarMusicas === playlist.id">
-        <ul>
-          <li *ngFor="let music of playlist.listMusics">{{ music.name }}</li>
+        <h4>Músicas</h4>
+        <ul *ngIf="playlist.listMusics && playlist.listMusics.length > 0">
+          <li *ngFor="let music of playlist.listMusics">
+            {{ music.name }}
+            <button
+              class="delete-btn"
+              (click)="
+                confirmDeleteMusica(playlist.id, music.id);
+                $event.stopPropagation()
+              "
+            >
+              Remover
+            </button>
+          </li>
         </ul>
+        <p *ngIf="!playlist.listMusics || playlist.listMusics.length === 0">
+          Nenhuma música encontrada
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- Modal de Confirmação de Exclusão -->
+  <!-- Modal de Criar/Editar Playlist -->
+  <div *ngIf="mostrarModal" class="modal-overlay">
+    <div class="modal">
+      <h3>{{ editingId ? "Editar Playlist" : "Criar Nova Playlist" }}</h3>
+
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <label>Nome:</label>
+        <input formControlName="name" placeholder="Nome da playlist" />
+        <div
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+          class="error"
+        >
+          Nome é obrigatório.
+        </div>
+
+        <label>Gênero:</label>
+        <input formControlName="genre" placeholder="Gênero" />
+        <div
+          *ngIf="form.get('genre')?.invalid && form.get('genre')?.touched"
+          class="error"
+        >
+          Gênero é obrigatório.
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="fecharModal()">Cancelar</button>
+          <button type="submit" [disabled]="form.invalid">
+            {{ editingId ? "Salvar Edição" : "Criar" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Adicionar Música -->
+  <div *ngIf="playlistSelecionada !== null" class="modal-overlay">
+    <div class="modal">
+      <h3>Adicionar Música à Playlist</h3>
+      <div *ngIf="musicasDisponiveis.length > 0">
+        <ul>
+          <li *ngFor="let music of musicasDisponiveis">
+            {{ music.name }} - {{ music.artist }}
+            <button
+              class="edit-btn"
+              (click)="adicionarMusica(playlistSelecionada, music.id)"
+            >
+              Adicionar
+            </button>
+          </li>
+        </ul>
+      </div>
+      <button class="delete-btn" (click)="fecharSelecaoMusicas()">
+        Fechar
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão de Playlist -->
   <div class="modal-overlay" *ngIf="mostrarConfirmacao">
     <div class="modal">
       <h3>Confirmar Exclusão</h3>
       <p>Tem certeza que deseja excluir esta playlist?</p>
       <div class="modal-actions">
-        <button (click)="confirmarExclusao()">Confirmar</button>
-        <button (click)="cancelarExclusao()">Cancelar</button>
+        <button type="button" (click)="cancelarExclusao()">Cancelar</button>
+        <button class="confirm-btn" (click)="confirmarExclusao()">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão de Música -->
+  <div class="modal-overlay" *ngIf="mostrarConfirmacaoMusica">
+    <div class="modal">
+      <h3>Confirmar Exclusão da Música</h3>
+      <p>Tem certeza que deseja remover esta música?</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelarExclusaoMusica()">
+          Cancelar
+        </button>
+        <button class="confirm-btn" (click)="confirmarExclusaoMusica()">
+          Confirmar
+        </button>
       </div>
     </div>
   </div>

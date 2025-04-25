@@ -33,7 +33,7 @@ export class MusicService {
   }
 
   // Atualizar música
-  update(id: number, music: MusicCreateDTO): Observable<Music> {
+  update(id: number, music: Music): Observable<Music> {
     return this.http.put<Music>(`${this.apiUrl}/${id}`, music);
   }
 

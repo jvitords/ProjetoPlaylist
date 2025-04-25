@@ -23,7 +23,7 @@ public class PlaylistGetDTO implements Serializable { // class responsável por 
 	private String genre;
 	private Integer quantityMusic;
 	
-	//private Set<Music> listMusics = new HashSet();
+	private Set<Music> listMusics = new HashSet();
 
 	public PlaylistGetDTO() {
 	}
@@ -33,7 +33,7 @@ public class PlaylistGetDTO implements Serializable { // class responsável por 
 		this.name = playlist.getName();
 		this.genre = playlist.getGenre();
 		this.quantityMusic = playlist.getQuantityMusic();
-		//this.listMusics = playlist.getListMusics();
+		this.listMusics = playlist.getListMusics();
 	}
 
 }
