@@ -58,7 +58,7 @@ export class PlaylistCompComponent implements OnInit {
         this.playlists = playlists;
       });
     } else {
-      this.loadPlaylists(); // Se estiver vazio, volta a lista completa
+      this.loadPlaylists();
     }
   }
 
@@ -74,7 +74,7 @@ export class PlaylistCompComponent implements OnInit {
     this.mostrarModal = false;
   }
 
-  // Função para submeter o formulário de criar ou editar playlist
+  // Função para mostrar o formulário de criar ou editar playlist
   submitForm(): void {
     if (this.form.valid) {
       const novaPlaylist: PlaylistCreateDTO = this.form.value;
@@ -105,7 +105,7 @@ export class PlaylistCompComponent implements OnInit {
     }
   }
 
-  // Função para editar uma playlist
+  // Função para editar a playlist
   editPlaylist(playlist: Playlist): void {
     this.editingId = playlist.id;
     this.form.setValue({
@@ -115,13 +115,13 @@ export class PlaylistCompComponent implements OnInit {
     this.mostrarModal = true;
   }
 
-  // Função para iniciar a confirmação de exclusão
+  // Função para mostrar a confirmação de exclusão
   confirmDelete(playlistId: number): void {
     this.playlistIdParaExcluir = playlistId;
     this.mostrarConfirmacao = true;
   }
 
-  // Função para executar a exclusão após confirmação
+  // Função para exclusão após confirmação
   confirmarExclusao(): void {
     if (this.playlistIdParaExcluir !== null) {
       this.playlistService.delete(this.playlistIdParaExcluir).subscribe(() => {
@@ -141,7 +141,7 @@ export class PlaylistCompComponent implements OnInit {
   // Função para abrir a seleção de músicas para uma playlist
   abrirSelecaoMusicas(idPlaylist: number): void {
     this.playlistSelecionada = idPlaylist;
-    this.carregarMusicasDisponiveis(); // Carrega as músicas disponíveis
+    this.carregarMusicasDisponiveis();
   }
 
   // Função para fechar o modal de seleção de músicas
@@ -156,7 +156,7 @@ export class PlaylistCompComponent implements OnInit {
     });
   }
 
-  // Função para adicionar uma música à playlist selecionada
+  // Função para adicionar uma música na playlist selecionada
   adicionarMusica(idPlaylist: number, idMusic: number): void {
     this.playlistService
       .adicionarMusicaNaPlaylist(idPlaylist, idMusic)
@@ -227,7 +227,7 @@ export class PlaylistCompComponent implements OnInit {
       this.mostrarMusicas === playlistId ? null : playlistId;
   }
 
-  // Exibe a mensagem de sucesso
+  // Exibir a mensagem de sucesso
   mostrarMensagemSucesso() {
     this.musicaAdicionadaComSucesso = true;
     setTimeout(() => {

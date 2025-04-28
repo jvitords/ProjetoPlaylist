@@ -14,7 +14,7 @@ import { MusicCreateDTO } from '../models/musicCreateDTO';
 @Component({
   selector: 'app-music-comp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule], // Certifique-se de importar ReactiveFormsModule aqui
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './music-comp.component.html',
   styleUrls: ['./music-comp.component.css'],
 })
@@ -34,7 +34,7 @@ export class MusicCompComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadMusics(); // Carregar músicas ao iniciar o componente
+    this.loadMusics();
   }
 
   // Função para carregar todas as músicas
@@ -51,11 +51,11 @@ export class MusicCompComponent implements OnInit {
         this.musics = musics;
       });
     } else {
-      this.loadMusics(); // Se o campo estiver vazio, retorna todas as músicas
+      this.loadMusics();
     }
   }
 
-  // Função para abrir o modal de criação/edição
+  // Função para abrir o modal de criação e edição
   abrirModal(): void {
     this.form.reset();
     this.mostrarModal = true;
@@ -68,7 +68,7 @@ export class MusicCompComponent implements OnInit {
     this.mostrarModal = false;
   }
 
-  // Função para submeter o formulário de criação ou edição
+  // Função para mostrar o formulário de criação ou edição
   submitForm(): void {
     if (this.modoExclusao && this.editingId) {
       this.musicService.delete(this.editingId).subscribe(() => {

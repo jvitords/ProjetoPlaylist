@@ -8,7 +8,7 @@ import { MusicCreateDTO } from '../models/musicCreateDTO';
   providedIn: 'root',
 })
 export class MusicService {
-  private apiUrl = 'http://localhost:8080/music'; // Ajuste para o seu backend
+  private apiUrl = 'http://localhost:8080/music'; // URL do backend
 
   constructor(private http: HttpClient) {}
 

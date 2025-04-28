@@ -8,7 +8,7 @@ import { PlaylistCreateDTO } from '../models/playlistCreateDTO';
   providedIn: 'root',
 })
 export class PlaylistService {
-  private apiUrl = 'http://localhost:8080/playlists'; // URL do backend padronizada
+  private apiUrl = 'http://localhost:8080/playlists'; // URL do backend
 
   constructor(private http: HttpClient) {}
 

@@ -1,5 +1,5 @@
 <div class="container">
-  <!-- Mensagem de sucesso -->
+  <!-- Mensagem de sucesso quando a musica é add -->
   <div *ngIf="musicaAdicionadaComSucesso" class="success-message">
     Música adicionada com sucesso!
   </div>
@@ -27,7 +27,7 @@
         <strong>Quantidade de Músicas:</strong> {{ playlist.quantityMusic }}
       </p>
 
-      <!-- Ações -->
+      <!-- Botões da playlist -->
       <div class="playlist-actions">
         <button
           class="edit-btn"
@@ -73,7 +73,7 @@
     </div>
   </div>
 
-  <!-- Modal de Criar/Editar Playlist -->
+  <!-- Modal de criar e editar-->
   <div *ngIf="mostrarModal" class="modal-overlay">
     <div class="modal">
       <h3>{{ editingId ? "Editar Playlist" : "Criar Nova Playlist" }}</h3>
@@ -107,7 +107,7 @@
     </div>
   </div>
 
-  <!-- Modal de Adicionar Música -->
+  <!-- Modal de adicionar música -->
   <div *ngIf="playlistSelecionada !== null" class="modal-overlay">
     <div class="modal">
       <h3>Adicionar Música à Playlist</h3>
@@ -130,7 +130,7 @@
     </div>
   </div>
 
-  <!-- Modal de Confirmação de Exclusão de Playlist -->
+  <!-- Modal de confirmação de exclusão da playlist -->
   <div class="modal-overlay" *ngIf="mostrarConfirmacao">
     <div class="modal">
       <h3>Confirmar Exclusão</h3>
@@ -144,7 +144,7 @@
     </div>
   </div>
 
-  <!-- Modal de Confirmação de Exclusão de Música -->
+  <!-- Modal de confirmação de exclusão de música -->
   <div class="modal-overlay" *ngIf="mostrarConfirmacaoMusica">
     <div class="modal">
       <h3>Confirmar Exclusão da Música</h3>

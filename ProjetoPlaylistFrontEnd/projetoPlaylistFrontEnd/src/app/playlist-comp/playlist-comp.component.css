@@ -1,4 +1,4 @@
-/* Estilos Gerais */
+/* Estilos gerais */
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -17,7 +17,7 @@ h4 {
   color: #333;
 }
 
-/* Estilo da Mensagem de Sucesso */
+/* Estilo da mensagem de sucesso */
 .success-message {
   background-color: #4caf50;
   color: white;
@@ -32,7 +32,7 @@ h4 {
   font-size: 12px;
 }
 
-/* Estilo para o Filtro */
+/* Estilo para o filtro */
 .filter-container {
   display: flex;
   justify-content: space-between;
@@ -59,7 +59,7 @@ h4 {
   background-color: #0056b3;
 }
 
-/* Lista de Playlists */
+/* Lista de playlists */
 .playlist-list {
   display: flex;
   flex-wrap: wrap;
@@ -111,7 +111,7 @@ h4 {
   opacity: 0.8;
 }
 
-/* Modal Overlay */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;

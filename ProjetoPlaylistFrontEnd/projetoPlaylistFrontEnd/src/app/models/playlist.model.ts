@@ -1,4 +1,4 @@
-import { Music } from './music.model'; // Corrigido de music.models para music.model
+import { Music } from './music.model';
 
 export interface Playlist {
   id: number;

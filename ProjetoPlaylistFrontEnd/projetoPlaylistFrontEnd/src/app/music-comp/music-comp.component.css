@@ -1,4 +1,4 @@
-/* Estilos Gerais */
+/* Estilos gerais */
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -15,9 +15,9 @@ h2 {
   color: #333;
 }
 
-/* Barra de Busca */
+/* Barra de busca */
 
-/* Estilo para o Filtro */
+/* Estilo para o filtro */
 .filter-container {
   display: flex;
   justify-content: space-between;
@@ -44,7 +44,7 @@ h2 {
   background-color: #0056b3;
 }
 
-/* Modal Overlay */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -99,7 +99,7 @@ h2 {
   opacity: 0.8;
 }
 
-/* Lista de Músicas */
+/* Lista de músicas */
 .music-list {
   display: flex;
   flex-wrap: wrap;
@@ -136,7 +136,7 @@ h2 {
   color: white;
 }
 
-/* Mensagem de Nenhuma Música Encontrada */
+/* Mensagem de nenhuma música encontrada */
 .music-list > div {
   text-align: center;
   font-size: 16px;
