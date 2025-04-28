@@ -25,7 +25,9 @@
       <form [formGroup]="form" (ngSubmit)="submitForm()">
         <!-- Campos visíveis apenas se não for modoExclusao -->
         <div *ngIf="!modoExclusao">
+          <label>Nome:</label>
           <input formControlName="name" placeholder="Nome da Música" />
+          <label>Artista:</label>
           <input formControlName="artist" placeholder="Artista" />
         </div>
 

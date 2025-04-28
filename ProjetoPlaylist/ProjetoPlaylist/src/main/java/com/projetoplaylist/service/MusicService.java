@@ -3,9 +3,11 @@ package com.projetoplaylist.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import com.projetoplaylist.entities.Music;
+import com.projetoplaylist.entities.Playlist;
 import com.projetoplaylist.entities.dto.musicdto.MusicPostDTO;
 import com.projetoplaylist.repository.MusicRepository;
 import com.projetoplaylist.service.exception.NotFoundException;
@@ -15,6 +17,8 @@ public class MusicService {
 	
 	@Autowired
 	MusicRepository musicRepository;
+	@Autowired
+	PlaylistService playlistService;
 
 	public MusicService() {
 	}
@@ -75,8 +79,17 @@ public class MusicService {
 	
 	public void deleteById(Long id) {
 		Music music = musicRepository.findById(id)
-			.orElseThrow(() -> new NotFoundException("Música não encontrada."));
-		musicRepository.delete(music);
+		        .orElseThrow(() -> new NotFoundException("Música não encontrada."));
+			
+	    // Irá remover todas as playlist que ela está relacionada, para não dar erro no banco
+		if (music.getPlaylist() != null) {
+			
+            for (Playlist playlist : music.getPlaylist()) {
+                // Chama o método deleteMusicInPlaylist para remover a música de cada playlist
+                playlistService.deleteMusicInPlaylist(playlist.getId(), music.getId());
+            }
+        }
+	    musicRepository.delete(music);
 	}
 
 }

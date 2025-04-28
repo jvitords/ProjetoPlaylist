@@ -37,7 +37,7 @@ public class Playlist implements Serializable{
 	private String genre;
 	private Integer quantityMusic = 0;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	@JoinTable(name = "tb_playlist_music", joinColumns = @JoinColumn(name = "id_playlist"), inverseJoinColumns = @JoinColumn(name = "id_music"))
 	private Set<Music> listMusics = new HashSet<>();
 	
